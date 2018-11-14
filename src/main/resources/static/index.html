@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webSocket聊天室</title>
+    <style>
+
+        .input-context {
+            width: 500px;
+            border: rgb(3, 169, 244) solid 1px;
+            border-radius: 2px;
+            margin: 50px auto 0;
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        .input-text {
+            display: block;
+            width: 500px;
+            margin: 30px auto 0;
+            height: 25px;
+        }
+    </style>
+</head>
+<div id="input-context" class="input-context"></div>
+<label>
+    <input id="input-text" autofocus="autofocus" class="input-text">
+</label>
+<body>
+<script>
+
+
+    var ws = new WebSocket('ws://'+window.location.host+'/ws'+window.location.pathname);
+    var inputContext = document.getElementById('input-context');
+    var inputText = document.getElementById('input-text');
+    inputText.onkeydown = function (e) {
+        var a = e || window.event;//加这个火狐下不会报 event is  undefind
+        if (a.key === 'Enter') {
+            //发送消息
+            ws.send(inputText.value);
+            inputText.value = '';
+            inputContext.scrollTop=99999999;
+        }
+    };
+
+
+    ws.onmessage = function(evt) {
+        receiveMessage(evt.data);
+
+    };
+
+    function receiveMessage(message) {
+        var messageEle = document.createElement('p');
+        messageEle.innerText = message;
+        inputContext.appendChild(messageEle);
+        inputContext.scrollTop=99999999;
+    }
+
+
+</script>
+</body>
+</html>
