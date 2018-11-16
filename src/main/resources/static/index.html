@@ -55,7 +55,39 @@
         messageEle.innerText = message;
         inputContext.appendChild(messageEle);
         inputContext.scrollTop=99999999;
+        notifyChrome(message);
     }
+
+
+
+    function notifyChrome(message) {
+        if(Notification.permission === 'granted'){
+            sendMessage(message);
+        }else if(Notification.permission === 'denied'){
+            console.log('用户拒绝通知');
+        }else{
+            Notification.requestPermission().then(function(permission) {
+                if(permission === 'granted'){
+                    sendMessage(message);
+                }else if(permission === 'denied'){
+                    console.log('用户拒绝通知');
+                }
+            });
+        }
+
+
+    }
+
+    function sendMessage(message) {
+        new Notification('你有新的消息',{
+            body: message,
+            tag: 'xiafei',
+            icon: 'https://xiafei-web.oss-cn-hangzhou.aliyuncs.com/file-server/1542362719767.png',
+            requireInteraction: true
+        })
+    }
+
+
 
 
 </script>
