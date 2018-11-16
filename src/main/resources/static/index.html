@@ -31,7 +31,7 @@
 <script>
 
 
-    var ws = new WebSocket('ws://'+window.location.host+'/ws'+window.location.pathname);
+    var ws = new WebSocket('wss://'+window.location.host+'/ws'+window.location.pathname);
     var inputContext = document.getElementById('input-context');
     var inputText = document.getElementById('input-text');
     inputText.onkeydown = function (e) {
